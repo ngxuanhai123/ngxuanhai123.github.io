@@ -8,12 +8,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HiHi Học Tập">
-    <meta name="theme-color" content="#0f2027">
+    <meta name="theme-color" content="#0f172a">
 
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%231e293b' /%3E%3Cpath d='M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z' fill='url(%23grad)' transform='scale(0.7) translate(110, 80)' /%3E%3C/svg%3E">
-
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%231e293b' /%3E%3Cpath d='M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z' fill='url(%23grad)' transform='scale(0.7) translate(110, 80)' /%3E%3C/svg%3E">
-
     <link rel="manifest" href='data:application/manifest+json,{"name":"HiHi Học Tập","short_name":"HiHi","start_url":".","display":"standalone","theme_color":"#0f2027","background_color":"#0f2027","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Cdefs%3E%3ClinearGradient id=%27grad%27 x1=%270%25%27 y1=%270%25%27 x2=%27100%25%27 y2=%27100%25%27%3E%3Cstop offset=%270%25%27 style=%27stop-color:%234facfe;stop-opacity:1%27 /%3E%3Cstop offset=%27100%25%27 style=%27stop-color:%2300f2fe;stop-opacity:1%27 /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%27512%27 height=%27512%27 rx=%27120%27 fill=%27%231e293b%27 /%3E%3Cpath d=%27M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z%27 fill=%27url(%23grad)%27 transform=%27scale(0.7) translate(110, 80)%27 /%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,9 +38,7 @@
         }
 
         body {
-            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #240b36);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: #0f172a; /* Màu nền gốc */
             color: var(--text-color);
             display: flex;
             flex-direction: column;
@@ -53,32 +49,46 @@
             position: relative;
         }
 
-        /* Animated Background Particles */
-        .bg-shape {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
+        /* --- NEW BACKGROUND EFFECTS (From Request) --- */
+        .aurora-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            /* Dải màu Gradient */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite; /* Chuyển động trong 15s */
             opacity: 0.6;
-            animation: floatShape 10s infinite alternate;
         }
 
-        .shape-1 {
-            width: 300px;
-            height: 300px;
-            background: #7f00ff;
-            top: -50px;
-            left: -50px;
+        /* Màu tối hơn cho Dark Mode để đỡ chói */
+        /* Mặc định body sẽ dùng dark theme logic ở đây vì nền web gốc tối */
+        .aurora-bg {
+            background: linear-gradient(-45deg, #020024, #090979, #1a0b2e, #001f3f);
+            background-size: 400% 400%;
         }
 
-        .shape-2 {
-            width: 400px;
-            height: 400px;
-            background: #00d2ff;
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -5s;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
+
+        /* --- PARTICLES --- */
+        .particle {
+            position: absolute; 
+            border-radius: 50%; 
+            background: white;
+            opacity: 0.2; 
+            animation: floatUp linear infinite; 
+            z-index: -1;
+            pointer-events: none; /* Không cản trở click chuột */
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+        /* ------------------------------------------- */
 
         header {
             text-align: center;
@@ -297,17 +307,6 @@
             70% { transform: scale(1); }
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes floatShape {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(30px, 50px); }
-        }
-
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -331,17 +330,13 @@
                 width: 100%;
                 max-width: 320px;
             }
-            .shape-1, .shape-2 {
-                width: 200px;
-                height: 200px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
+    <div class="aurora-bg"></div>
+    <div id="particles"></div>
 
     <header>
         <img class="app-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%231e293b' /%3E%3Cpath d='M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z' fill='url(%23grad)' transform='scale(0.7) translate(110, 80)' /%3E%3C/svg%3E" alt="HiHi Học Tập Logo">
@@ -379,6 +374,27 @@
     </footer>
 
     <script type="text/javascript">
+        // --- Create Particles Function ---
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if(!container) return;
+            for(let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.width = Math.random() * 5 + 2 + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDuration = Math.random() * 10 + 10 + 's';
+                p.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(p);
+            }
+        }
+
+        // --- Init Scripts ---
+        window.onload = function() {
+            createParticles();
+        };
+
         // Kịch bản Tilt 3D
         const cards = document.querySelectorAll('.card');
 
