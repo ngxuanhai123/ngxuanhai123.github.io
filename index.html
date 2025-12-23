@@ -2,428 +2,81 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Học Tập | NgXuanHai123</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HiHi Học Tập</title>
     
+    <!-- PWA Settings -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HiHi Study">
     <meta name="theme-color" content="#0f172a">
+    
+    <!-- Manifest Link -->
+    <link rel="manifest" href="manifest.json">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%231e293b' /%3E%3Cpath d='M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z' fill='url(%23grad)' transform='scale(0.7) translate(110, 80)' /%3E%3C/svg%3E">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%231e293b' /%3E%3Cpath d='M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z' fill='url(%23grad)' transform='scale(0.7) translate(110, 80)' /%3E%3C/svg%3E">
-    <link rel="manifest" href='data:application/manifest+json,{"name":"HiHi Học Tập","short_name":"HiHi","start_url":".","display":"standalone","theme_color":"#0f2027","background_color":"#0f2027","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Cdefs%3E%3ClinearGradient id=%27grad%27 x1=%270%25%27 y1=%270%25%27 x2=%27100%25%27 y2=%27100%25%27%3E%3Cstop offset=%270%25%27 style=%27stop-color:%234facfe;stop-opacity:1%27 /%3E%3Cstop offset=%27100%25%27 style=%27stop-color:%2300f2fe;stop-opacity:1%27 /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%27512%27 height=%27512%27 rx=%27120%27 fill=%27%231e293b%27 /%3E%3Cpath d=%27M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z%27 fill=%27url(%23grad)%27 transform=%27scale(0.7) translate(110, 80)%27 /%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
-
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%231e293b' /%3E%3Cpath d='M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z' fill='url(%23grad)' transform='scale(0.7) translate(110, 80)' /%3E%3C/svg%3E">
+    
+    <!-- Fonts and Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        :root {
-            --primary-color: #4facfe;
-            --secondary-color: #00f2fe;
-            --text-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.1);
-            --card-border: rgba(255, 255, 255, 0.2);
-            --glow: rgba(79, 172, 254, 0.6);
-            --heart-color: #ff4757;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: #0f172a; /* Màu nền gốc */
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* --- NEW BACKGROUND EFFECTS (From Request) --- */
-        .aurora-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-            /* Dải màu Gradient */
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite; /* Chuyển động trong 15s */
-            opacity: 0.6;
-        }
-
-        /* Màu tối hơn cho Dark Mode để đỡ chói */
-        /* Mặc định body sẽ dùng dark theme logic ở đây vì nền web gốc tối */
-        .aurora-bg {
-            background: linear-gradient(-45deg, #020024, #090979, #1a0b2e, #001f3f);
-            background-size: 400% 400%;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- PARTICLES --- */
-        .particle {
-            position: absolute; 
-            border-radius: 50%; 
-            background: white;
-            opacity: 0.2; 
-            animation: floatUp linear infinite; 
-            z-index: -1;
-            pointer-events: none; /* Không cản trở click chuột */
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-        }
-        /* ------------------------------------------- */
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 0 1rem;
-            position: relative;
-            z-index: 2;
-            animation: fadeInDown 1s ease-out;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Styles cho Logo */
-        .app-logo {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 0 15px var(--glow));
-            transition: transform 0.3s ease;
-        }
-        
-        .app-logo:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        h1 {
-            color: #fff;
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 20px var(--glow);
-            letter-spacing: -1px;
-            background: linear-gradient(to right, #fff, #b3e5fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        p.subtitle {
-            font-size: 1.2rem;
-            color: #e0e7ff;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-
-        .container {
-            display: flex;
-            gap: 3rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 1rem;
-            max-width: 1200px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Glassmorphism Card */
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            width: 340px;
-            text-decoration: none;
-            color: inherit;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-
-        /* Card Hover Effects */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .card:hover::before {
-            left: 100%;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.3);
-        }
-
-        .icon-box {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.1);
-            position: relative;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover .icon-box {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            box-shadow: 0 0 30px var(--glow);
-            border: none;
-        }
-
-        /* SVG Styling */
-        svg {
-            width: 50px;
-            height: 50px;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
-            transition: all 0.5s;
-        }
-        
-        .card:hover svg {
-            transform: rotateY(-180deg);
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
-        }
-
-        .card h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .card p {
-            color: #cbd5e1;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .btn {
-            margin-top: auto;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            color: #0f172a;
-            padding: 0.8rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 100%;
-            background: #fff;
-            z-index: -1;
-            transition: width 0.3s ease;
-        }
-
-        .card:hover .btn::after {
-            width: 100%;
-        }
-
-        .card:hover .btn {
-            color: var(--primary-color);
-            box-shadow: 0 0 20px var(--glow);
-        }
-
-        footer {
-            margin-top: auto;
-            padding: 2rem;
-            color: rgba(255,255,255,0.6);
-            font-size: 1rem;
-            text-align: center;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .footer-heart {
-            color: var(--heart-color);
-            font-size: 1.2rem;
-            display: inline-block;
-            animation: heartbeat 1.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 8px var(--heart-color));
-            vertical-align: middle;
-        }
-
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.3); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.3); }
-            70% { transform: scale(1); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes floatIcon {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                flex-direction: column;
-                gap: 2rem;
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#4facfe',
+              secondary: '#00f2fe',
+              dark: '#0f172a',
+            },
+            fontFamily: {
+              poppins: ['Poppins', 'sans-serif'],
+            },
+            animation: {
+              'float-up': 'floatUp 15s linear infinite',
+              'heart-beat': 'heartbeat 1.5s ease-in-out infinite',
+              'float-icon': 'floatIcon 3s ease-in-out infinite',
+              'fade-in-down': 'fadeInDown 1s ease-out',
+            },
+            keyframes: {
+              floatUp: {
+                '0%': { transform: 'translateY(100vh) scale(0)', opacity: '0' },
+                '50%': { opacity: '0.5' },
+                '100%': { transform: 'translateY(-10vh) scale(1)', opacity: '0' },
+              },
+              heartbeat: {
+                '0%, 28%, 70%': { transform: 'scale(1)' },
+                '14%, 42%': { transform: 'scale(1.3)' },
+              },
+              floatIcon: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' },
+              },
+              fadeInDown: {
+                'from': { opacity: '0', transform: 'translateY(-30px)' },
+                'to': { opacity: '1', transform: 'translateY(0)' },
+              }
             }
-            h1 {
-                font-size: 2.2rem;
-            }
-            .card {
-                width: 100%;
-                max-width: 320px;
-            }
+          }
         }
-    </style>
-</head>
-<body>
-
-    <div class="aurora-bg"></div>
-    <div id="particles"></div>
-
-    <header>
-        <img class="app-logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234facfe;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300f2fe;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='120' fill='%231e293b' /%3E%3Cpath d='M256 112c-49.5 0-93.5 21.3-128 56-23.8-24.8-57-40-96-40v256c39 0 72.2 15.2 96 40 34.5-34.7 78.5-56 128-56s93.5 21.3 128 56c23.8-24.8 57-40 96-40V128c-39 0-72.2 15.2-96 40-34.5-34.7-78.5-56-128-56z' fill='url(%23grad)' transform='scale(0.7) translate(110, 80)' /%3E%3C/svg%3E" alt="HiHi Học Tập Logo">
-        
-        <h1>HiHi Học Tập</h1>
-        <p class="subtitle">Chọn công cụ để bắt đầu luyện tập ngay hôm nay</p>
-    </header>
-
-    <main class="container">
-        <a href="https://ngxuanhai123.github.io/tuvung/" class="card js-tilt" data-tilt>
-            <div class="icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-            </div>
-            <h2>Luyện Từ Vựng</h2>
-            <p>Hệ thống thẻ ghi nhớ (Flashcard) và danh sách từ vựng giúp bạn ghi nhớ nhanh hơn.</p>
-            <span class="btn">Truy cập <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 0.8em;"></i></span>
-        </a>
-
-        <a href="https://ngxuanhai123.github.io/chinhta/" class="card js-tilt" data-tilt>
-            <div class="icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-            </div>
-            <h2>Luyện Chính Tả</h2>
-            <p>Công cụ nghe và chép chính tả (Dictation) để cải thiện kỹ năng nghe viết.</p>
-            <span class="btn">Truy cập <i class="fas fa-arrow-right" style="margin-left: 5px; font-size: 0.8em;"></i></span>
-        </a>
-    </main>
-
-    <footer>
-        &copy; HiHi Study, Hải dựa trên nhu cầu học tập của bản thân và các anh em gợi ý. Xây dựng app bằng cả trái tim <i class="fas fa-heart footer-heart"></i>
-    </footer>
-
-    <script type="text/javascript">
-        // --- Create Particles Function ---
-        function createParticles() {
-            const container = document.getElementById('particles');
-            if(!container) return;
-            for(let i = 0; i < 15; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.width = Math.random() * 5 + 2 + 'px';
-                p.style.height = p.style.width;
-                p.style.animationDuration = Math.random() * 10 + 10 + 's';
-                p.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(p);
-            }
-        }
-
-        // --- Init Scripts ---
-        window.onload = function() {
-            createParticles();
-        };
-
-        // Kịch bản Tilt 3D
-        const cards = document.querySelectorAll('.card');
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = ((y - centerY) / centerY) * -10;
-                const rotateY = ((x - centerX) / centerX) * 10;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            });
-        });
-
-        const icons = document.querySelectorAll('.icon-box');
-        icons.forEach(icon => {
-            setInterval(() => {
-                icon.style.animation = 'floatIcon 3s ease-in-out infinite';
-            }, Math.random() * 1000);
-        });
+      }
     </script>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+</head>
+<body class="bg-[#0f172a] text-white">
+    <div id="root"></div>
 </body>
 </html>
