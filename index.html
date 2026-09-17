@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="vi">
+﻿<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -282,7 +282,33 @@
 
         /* SVGs */
         svg { width: 32px; height: 32px; stroke-width: 1.5; }
-    </style>
+    
+/* === HiHi Light Mode === */
+[data-theme="light"] {
+  --bg-color: #f1f5f9;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --text-color: #334155;
+  --heading-color: #0f172a;
+  --nav-bg: rgba(241, 245, 249, 0.85);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] body { background: #f1f5f9; }
+[data-theme="light"] .aurora-bg, [data-theme="light"] .hihi-bg {
+  background: radial-gradient(circle at 50% 50%, #e2e8f0 0%, #f1f5f9 100%) !important;
+}
+[data-theme="light"] .orb-1, [data-theme="light"] .hihi-orb:first-of-type { background: #93c5fd !important; opacity: 0.3 !important; }
+[data-theme="light"] .orb-2, [data-theme="light"] .hihi-orb:last-of-type { background: #67e8f9 !important; opacity: 0.3 !important; }
+[data-theme="light"] .card { background: var(--card-bg); border-color: var(--card-border); }
+[data-theme="light"] .card h2 { color: var(--heading-color); }
+[data-theme="light"] .card p { color: var(--text-color); }
+[data-theme="light"] header { background: var(--nav-bg); border-bottom-color: var(--card-border); }
+[data-theme="light"] .btn-card { background: rgba(37,99,235,0.1); color: #2563eb; }
+[data-theme="light"] .install-btn { background: rgba(0,0,0,0.05); color: #334155; border-color: rgba(0,0,0,0.08); }
+[data-theme="light"] #theme-toggle-btn { background: rgba(0,0,0,0.05); color: #334155; }
+[data-theme="light"] .brand-wrapper .titles h1 { color: var(--heading-color); }
+[data-theme="light"] .brand-wrapper .titles p { color: var(--text-color); }</style>
 </head>
 <body>
 
@@ -299,7 +325,10 @@
             </div>
         </div>
 
-        <button id="pwa-install-btn" class="install-btn" aria-label="Cài đặt ứng dụng">
+                <button id="theme-toggle-btn" onclick="toggleTheme()" style="width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.08);color:var(--text-color,#cbd5e1);font-size:1.1rem;cursor:pointer;transition:all 0.2s;margin-right:8px;" title="Dark/Light">
+            <i id="themeIcon" class="fas fa-moon"></i>
+        </button>
+<button id="pwa-install-btn" class="install-btn" aria-label="Cài đặt ứng dụng">
             <i class="fas fa-download"></i>
             <span>Cài đặt App</span>
         </button>
@@ -434,5 +463,10 @@
             observer.observe(card);
         });
     </script>
-</body>
+
+<script>
+function toggleTheme(){var h=document.documentElement,n=h.getAttribute('data-theme')==='light'?'dark':'light';h.setAttribute('data-theme',n);localStorage.setItem('hihi-theme',n);var i=document.getElementById('themeIcon');if(i)i.className=n==='light'?'fas fa-sun':'fas fa-moon';document.body.style.background=n==='light'?'#f1f5f9':'#0f172a';}
+(function(){var s=localStorage.getItem('hihi-theme')||'dark';document.documentElement.setAttribute('data-theme',s);})();
+window.addEventListener('DOMContentLoaded',function(){var s=document.documentElement.getAttribute('data-theme')||'dark';var i=document.getElementById('themeIcon');if(i)i.className=s==='light'?'fas fa-sun':'fas fa-moon';if(s==='light')document.body.style.background='#f1f5f9';});
+</script></body>
 </html>
