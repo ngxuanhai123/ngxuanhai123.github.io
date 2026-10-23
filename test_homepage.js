@@ -1,6 +1,6 @@
 /**
- * TEST SUITE: Trang Chủ HiHi Study (ngxuanhai123.github.io)
- * Kiểm thử toàn diện liên kết, chức năng & bảo mật
+ * TEST SUITE: Trang Chủ HiHi Portal (ngxuanhai123.github.io)
+ * Kiểm thử tính toàn vẹn liên kết, routing và an toàn PWA
  */
 
 const fs = require('fs');
@@ -37,26 +37,24 @@ async function runTests() {
   // TEST 2: Kiểm tra lỗi escape literal \n trong HTML
   try {
     const hasLiteralSlashN = html.includes('</a>\\n');
-    const passed = !hasLiteralSlashN;
-    recordResult('2. Kiểm tra lỗi escape literal \\n trong HTML', passed, passed ? 'HTML sạch sẽ, không có lỗi chuỗi escape' : 'Phát hiện literal "\\n" trong mã HTML');
+    recordResult('2. Kiểm tra lỗi escape literal \\n trong HTML', !hasLiteralSlashN, !hasLiteralSlashN ? 'HTML sạch sẽ, không có lỗi chuỗi escape' : 'Phát hiện literal "\\n" trong mã HTML');
   } catch (e) {
     recordResult('2. Kiểm tra lỗi escape literal \\n trong HTML', false, e.message);
   }
 
-  // TEST 3: Kiểm tra link bamhuyet có dấu gạch chéo chuẩn (tránh redirect 301)
+  // TEST 3: Đảm bảo đường dẫn bamhuyet/ chuẩn hóa (không thiếu dấu gạch chéo cuối để tránh 301 redirect)
   try {
-    const hasBadBamhuyet = html.includes('href="https://ngxuanhai123.github.io/bamhuyet"');
-    const passed = !hasBadBamhuyet;
-    recordResult('3. Chuẩn hóa đường dẫn bamhuyet/ (tránh redirect)', passed, passed ? 'Đã chuẩn hóa trailing slash' : 'Còn link thiếu dấu gạch chéo cuối');
+    const hasCorrectBamHuyet = html.includes('href="https://ngxuanhai123.github.io/bamhuyet/"');
+    recordResult('3. Chuẩn hóa đường dẫn bamhuyet/ (tránh redirect)', hasCorrectBamHuyet, hasCorrectBamHuyet ? 'Đã chuẩn hóa trailing slash' : 'Thiếu trailing slash bamhuyet/');
   } catch (e) {
     recordResult('3. Chuẩn hóa đường dẫn bamhuyet/', false, e.message);
   }
 
-  // TEST 4: Đầy đủ các link dự án hoạt động trên trang chủ
+  // TEST 4: Đầy đủ các ứng dụng cốt lõi của hệ sinh thái
   const requiredApps = [
     { name: 'Từ Vựng', url: 'https://ngxuanhai123.github.io/tuvung/' },
     { name: 'Chính Tả', url: 'https://ngxuanhai123.github.io/chinhta/' },
-    { name: 'Luyện Dịch', url: 'https://ngxuanhai123.github.io/dich/' },
+    { name: 'Dịch', url: 'https://ngxuanhai123.github.io/dich/' },
     { name: 'Ghi Chú', url: 'https://ngxuanhai123.github.io/note/' },
     { name: 'Bấm Huyệt', url: 'https://ngxuanhai123.github.io/bamhuyet/' },
     { name: 'Mân Côi', url: 'https://ngxuanhai123.github.io/rosa/' },
@@ -89,6 +87,17 @@ async function runTests() {
     recordResult('5. Bảo mật thẻ liên kết ngoài (target="_blank" rel="noopener noreferrer")', passed, passed ? 'Tất cả liên kết ngoài an toàn' : `Phát hiện ${violations.length} liên kết thiếu rel="noopener"`);
   } catch (e) {
     recordResult('5. Bảo mật thẻ liên kết ngoài', false, e.message);
+  }
+
+  // TEST 6: Đồng bộ Bảng Xếp Hạng toàn hệ sinh thái & Single Sign-On (SSO)
+  try {
+    const hasSharedConfig = html.includes('tuvung-88e8d');
+    const hasHihiLbSync = html.includes('hihi_leaderboard') && html.includes('hihiLeaderboardModal');
+    const hasAuth = html.includes('window.hihiAuth');
+    const passed = hasSharedConfig && hasHihiLbSync && hasAuth;
+    recordResult('6. Đồng bộ Bảng Xếp Hạng toàn hệ sinh thái & Single Sign-On (SSO)', passed, passed ? 'Đã liên kết hihi_leaderboard & SSO tuvung-88e8d' : 'Chưa đồng bộ BXH chung');
+  } catch (e) {
+    recordResult('6. Đồng bộ Bảng Xếp Hạng toàn hệ sinh thái & Single Sign-On (SSO)', false, e.message);
   }
 
   const passedCount = results.filter(r => r.passed).length;
