@@ -1545,7 +1545,73 @@ window.hihiAuthLogout = window.hihiAuthLogout || function() {
 
 
 
-    <!-- MINIMALIST HERO SECTION -->
+    <!-- HIHI USERSCRIPTS & EXTENSIONS MODAL -->
+<div id="hihiScriptsModalOverlay" class="hihi-modal-overlay" onclick="closeHiHiScriptsModal(event)">
+  <div class="hihi-modal-box" onclick="event.stopPropagation()">
+    <div class="hihi-modal-header">
+      <div class="hihi-modal-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        <span>Kho Userscripts & Tiện Ích Tampermonkey</span>
+      </div>
+      <button class="hihi-modal-close" onclick="closeHiHiScriptsModal()">&times;</button>
+    </div>
+    <div style="font-size:0.82rem;color:var(--hihi-nav-text,#94a3b8);margin-bottom:14px;line-height:1.5;">
+      Các tiện ích mở rộng người dùng (Userscripts) mã nguồn mở, hoạt động thông qua tiện ích <strong>Tampermonkey</strong> / <strong>Violentmonkey</strong> trên trình duyệt:
+    </div>
+    <div class="hihi-modal-grid">
+      <a href="https://github.com/ngxuanhai123/MemAIHelper" target="_blank" rel="noopener noreferrer" class="hihi-grid-card">
+          <div class="hihi-grid-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706); color:#fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="hihi-grid-info">
+            <div class="hihi-grid-name">Memrise AI Helper</div>
+            <div class="hihi-grid-desc">Dịch song ngữ AI Memrise & Duolingo</div>
+          </div>
+      </a>
+      <a href="https://github.com/ngxuanhai123/tampermonkey-porn-blocker" target="_blank" rel="noopener noreferrer" class="hihi-grid-card">
+          <div class="hihi-grid-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626); color:#fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div class="hihi-grid-info">
+            <div class="hihi-grid-name">Chặn Web Đen & Mindful</div>
+            <div class="hihi-grid-desc">Chặn 76.000+ web xấu & rèn luyện ý chí</div>
+          </div>
+      </a>
+      <a href="https://github.com/ngxuanhai123/nhachocbai" target="_blank" rel="noopener noreferrer" class="hihi-grid-card">
+          <div class="hihi-grid-icon" style="background: linear-gradient(135deg, #84cc16, #4d7c0f); color:#fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          </div>
+          <div class="hihi-grid-info">
+            <div class="hihi-grid-name">Nhắc Học Bài Script</div>
+            <div class="hihi-grid-desc">Nhắc nhở học tập & ôn từ vựng</div>
+          </div>
+      </a>
+      <a href="https://github.com/ngxuanhai123/MemTTS" target="_blank" rel="noopener noreferrer" class="hihi-grid-card">
+          <div class="hihi-grid-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2); color:#fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z"/></svg>
+          </div>
+          <div class="hihi-grid-info">
+            <div class="hihi-grid-name">Memrise TTS Pronounce</div>
+            <div class="hihi-grid-desc">Phát âm chuẩn giọng bản xứ trên Memrise</div>
+          </div>
+      </a>
+      <a href="https://github.com/ngxuanhai123/DuoDoubleClick" target="_blank" rel="noopener noreferrer" class="hihi-grid-card">
+          <div class="hihi-grid-icon" style="background: linear-gradient(135deg, #10b981, #059669); color:#fff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="hihi-grid-info">
+            <div class="hihi-grid-name">Duolingo Double Click</div>
+            <div class="hihi-grid-desc">Nhấp đúp chuột trả lời nhanh Duolingo</div>
+          </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MINIMALIST HERO SECTION -->
     <section class="hero-section">
         <div class="hero-badge">Hệ Sinh Thái Học Tập & Tiện Ích</div>
         <h1 class="hero-title">HiHi Study Hub</h1>
@@ -1669,26 +1735,15 @@ window.hihiAuthLogout = window.hihiAuthLogout || function() {
             <div class="btn-card">Truy cập ngay <i class="fas fa-arrow-right"></i></div>
         </a>
 
-        <a href="https://github.com/ngxuanhai123/MemAIHelper" target="_blank" rel="noopener noreferrer" class="card">
-            <div class="icon-box">
+                <a href="#userscripts" onclick="openHiHiScriptsModal(event); return false;" class="card">
+            <div class="icon-box" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-width="2"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-width="2"/>
                 </svg>
             </div>
-            <h2>Memrise AI Helper</h2>
-            <p>Tiện ích Tampermonkey dịch tự động song ngữ thông minh bằng AI trên Memrise & Duolingo.</p>
-            <div class="btn-card">Cài đặt Script <i class="fas fa-external-link-alt"></i></div>
-        </a>
-
-        <a href="https://github.com/ngxuanhai123/tampermonkey-porn-blocker" target="_blank" rel="noopener noreferrer" class="card">
-            <div class="icon-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-width="2"/>
-                </svg>
-            </div>
-            <h2>Chặn Web Đen & Mindful</h2>
-            <p>Userscript chặn web khiêu dâm tự động (hơn 76.000 tên miền) kết hợp giao diện rèn luyện ý chí.</p>
-            <div class="btn-card">Cài đặt Script <i class="fas fa-external-link-alt"></i></div>
+            <h2>Kho Userscripts & Tiện Ích</h2>
+            <p>Trọn bộ tiện ích Tampermonkey mã nguồn mở: Memrise AI Helper, Chặn Web Đen & Mindful, Nhắc Học Bài và công cụ hỗ trợ học tập.</p>
+            <div class="btn-card">Khám phá Script <i class="fas fa-arrow-right"></i></div>
         </a>
     </main>
 
@@ -1807,13 +1862,30 @@ function closeHiHiSysMenu(e) {
   if (m) m.classList.remove('active');
 }
 
+function openHiHiScriptsModal(e) {
+  if (e) e.stopPropagation();
+  var m = document.getElementById('hihiScriptsModalOverlay');
+  if (m) m.classList.add('active');
+}
+
+function closeHiHiScriptsModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('hihi-modal-close')) return;
+  var m = document.getElementById('hihiScriptsModalOverlay');
+  if (m) m.classList.remove('active');
+}
+
 window.openHiHiSysMenu = openHiHiSysMenu;
 window.toggleHiHiSysMenu = toggleHiHiSysMenu;
 window.closeHiHiSysMenu = closeHiHiSysMenu;
+window.openHiHiScriptsModal = openHiHiScriptsModal;
+window.closeHiHiScriptsModal = closeHiHiScriptsModal;
 window.toggleHiHiSysTheme = toggleHiHiSysTheme;
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeHiHiSysMenu();
+  if (e.key === 'Escape') {
+    closeHiHiSysMenu();
+    closeHiHiScriptsModal();
+  }
 });
 
 (function() {
