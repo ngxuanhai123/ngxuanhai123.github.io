@@ -61,8 +61,7 @@ async function runTests() {
     { name: 'Dịch iOS', url: 'https://ngxuanhai123.github.io/dich-ios/' },
     { name: 'Tiếng Indo', url: 'https://ngxuanhai123.github.io/indo/' },
     { name: 'Nhắc Học Bài', url: 'https://ngxuanhai123.github.io/nhachocbai/' },
-    { name: 'HiHi Analytics', url: 'https://ngxuanhai123.github.io/HiHi-Analytics/' },
-    { name: 'MemAIHelper', url: 'https://github.com/ngxuanhai123/MemAIHelper' },
+        { name: 'MemAIHelper', url: 'https://github.com/ngxuanhai123/MemAIHelper' },
     { name: 'Porn Blocker', url: 'https://github.com/ngxuanhai123/tampermonkey-porn-blocker' }
   ];
 
@@ -87,6 +86,14 @@ async function runTests() {
     recordResult('5. Bảo mật thẻ liên kết ngoài (target="_blank" rel="noopener noreferrer")', passed, passed ? 'Tất cả liên kết ngoài an toàn' : `Phát hiện ${violations.length} liên kết thiếu rel="noopener"`);
   } catch (e) {
     recordResult('5. Bảo mật thẻ liên kết ngoài', false, e.message);
+  }
+
+  // TEST 7: Đảm bảo dự án HiHi Analytics đã được xóa vĩnh viễn
+  try {
+    const hasAnalytics = html.includes('HiHi-Analytics');
+    recordResult('7. Đảm bảo xóa vĩnh viễn HiHi-Analytics khỏi hệ thống', !hasAnalytics, !hasAnalytics ? 'Không còn dấu vết của HiHi-Analytics' : 'Vẫn còn sót liên kết HiHi-Analytics');
+  } catch (e) {
+    recordResult('7. Đảm bảo xóa vĩnh viễn HiHi-Analytics', false, e.message);
   }
 
   // TEST 6: Đồng bộ Bảng Xếp Hạng toàn hệ sinh thái & Single Sign-On (SSO)
