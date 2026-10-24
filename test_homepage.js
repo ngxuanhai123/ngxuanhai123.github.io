@@ -52,16 +52,13 @@ async function runTests() {
 
   // TEST 4: Đầy đủ các ứng dụng cốt lõi của hệ sinh thái
   const requiredApps = [
-    { name: 'Từ Vựng', url: 'https://ngxuanhai123.github.io/tuvung/' },
-    { name: 'Chính Tả', url: 'https://ngxuanhai123.github.io/chinhta/' },
-    { name: 'Dịch', url: 'https://ngxuanhai123.github.io/dich/' },
-    { name: 'Ghi Chú', url: 'https://ngxuanhai123.github.io/note/' },
+    { name: 'Luyện Từ Vựng', url: 'https://ngxuanhai123.github.io/tuvung/' },
+    { name: 'Luyện Chính Tả', url: 'https://ngxuanhai123.github.io/chinhta/' },
+    { name: 'Luyện Dịch', url: 'https://ngxuanhai123.github.io/dich/' },
+    { name: 'Kho Lưu', url: 'https://ngxuanhai123.github.io/note/' },
     { name: 'Bấm Huyệt', url: 'https://ngxuanhai123.github.io/bamhuyet/' },
-    { name: 'Mân Côi', url: 'https://ngxuanhai123.github.io/rosa/' },
-    { name: 'Dịch iOS', url: 'https://ngxuanhai123.github.io/dich-ios/' },
-    { name: 'Tiếng Indo', url: 'https://ngxuanhai123.github.io/indo/' },
-    { name: 'Nhắc Học Bài', url: 'https://ngxuanhai123.github.io/nhachocbai/' },
-        { name: 'MemAIHelper', url: 'https://github.com/ngxuanhai123/MemAIHelper' },
+    { name: 'Lần Hạt Mân Côi', url: 'https://ngxuanhai123.github.io/rosa/' },
+    { name: 'MemAIHelper', url: 'https://github.com/ngxuanhai123/MemAIHelper' },
     { name: 'Porn Blocker', url: 'https://github.com/ngxuanhai123/tampermonkey-porn-blocker' }
   ];
 
@@ -94,6 +91,26 @@ async function runTests() {
     recordResult('7. Đảm bảo xóa vĩnh viễn HiHi-Analytics khỏi hệ thống', !hasAnalytics, !hasAnalytics ? 'Không còn dấu vết của HiHi-Analytics' : 'Vẫn còn sót liên kết HiHi-Analytics');
   } catch (e) {
     recordResult('7. Đảm bảo xóa vĩnh viễn HiHi-Analytics', false, e.message);
+  }
+
+  // TEST 8: Đảm bảo đã loại bỏ thẻ Dịch iOS, Tiếng Indo, Nhắc Học Bài khỏi lưới trang chủ & modal
+  try {
+    const mainStart = html.indexOf('<main class="container">');
+    const mainEnd = html.indexOf('</main>', mainStart);
+    const mainHtml = html.substring(mainStart, mainEnd);
+    const inMain = mainHtml.includes('/dich-ios/') || mainHtml.includes('/indo/') || mainHtml.includes('ngxuanhai123.github.io/nhachocbai/');
+    
+    const mStart = html.indexOf('id="hihiSysModalOverlay"');
+    const mEnd = html.indexOf('</div>\n  </div>\n</div>', mStart) !== -1
+      ? html.indexOf('</div>\n  </div>\n</div>', mStart)
+      : html.indexOf('</div>\r\n  </div>\r\n</div>', mStart);
+    const mHtml = html.substring(mStart, mEnd !== -1 ? mEnd : mStart + 4000);
+    const inModal = mHtml.includes('/dich-ios/') || mHtml.includes('/indo/') || mHtml.includes('ngxuanhai123.github.io/nhachocbai/');
+
+    const clean = !inMain && !inModal;
+    recordResult('8. Đảm bảo loại bỏ thẻ Dịch iOS, Tiếng Indo, Nhắc Học Bài', clean, clean ? 'Lưới chính và modal đã sạch sẽ, đồng bộ 100%' : 'Vẫn còn sót thẻ trên lưới chính hoặc modal');
+  } catch(e) {
+    recordResult('8. Đảm bảo loại bỏ thẻ', false, e.message);
   }
 
   // TEST 6: Đồng bộ Bảng Xếp Hạng toàn hệ sinh thái & Single Sign-On (SSO)
