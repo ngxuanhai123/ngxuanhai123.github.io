@@ -79,12 +79,7 @@
       this.el = document.createElement('div');
       this.el.className = 'phiquiz-figma-cursor';
       this.el.style.cssText = `position:absolute;left:0;top:0;pointer-events:none;will-change:transform;transition:opacity .3s ease;display:flex;flex-direction:column;align-items:flex-start;`;
-      this.el.innerHTML = `
-        ${createCursorSvg(this.color)}
-        <div style="background:${this.color};color:#ffffff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px;line-height:1;padding:2px 6px;border-radius:3px;margin-left:12px;margin-top:-6px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.4);">
-          ${this.name}
-        </div>
-      `;
+      this.el.innerHTML = createCursorSvg(this.color);
       flockContainer.appendChild(this.el);
     }
 
