@@ -26,17 +26,27 @@
   let flockContainer = null;
   let agents = [];
   let isAmbient = false;
-  let isRunningIntro = false;
   let rafId = null;
   let lastTime = performance.now();
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
+  let viewportW = window.innerWidth;
+  let viewportH = window.innerHeight;
+  let mouseX = viewportW / 2;
+  let mouseY = viewportH / 2;
   let mouseActive = false;
   let mouseTimer = null;
-  const FLOCK_AGENTS = 24; // Smooth 24-36 agents
+  const reducedMotionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  const FLOCK_AGENTS = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ? 10 : 14;
+
+  function prefersReducedMotion() {
+    return !!(reducedMotionQuery && reducedMotionQuery.matches);
+  }
+
+  function isSmallViewport() {
+    return viewportW <= 767;
+  }
 
   function createCursorSvg(color) {
-    return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.28));overflow:visible;">
+    return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="overflow:visible;">
       <path d="${ARROW_D}" fill="${color}" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round" />
     </svg>`;
   }
@@ -45,7 +55,7 @@
     if (!container) {
       container = document.createElement('div');
       container.id = 'phiquiz-swarm-container';
-      container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99998;overflow:hidden;';
+      container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99998;overflow:hidden;opacity:0;transition:opacity .45s ease;';
       document.body.appendChild(container);
     }
     if (!flockContainer) {
@@ -70,26 +80,20 @@
       this.angle = Math.random() * Math.PI * 2;
 
       // Position start offscreen
-      const side = id % 2 === 0 ? -40 - Math.random() * 160 : window.innerWidth + 40 + Math.random() * 160;
+      const side = id % 2 === 0 ? -40 - Math.random() * 160 : viewportW + 40 + Math.random() * 160;
       this.x = side;
-      this.y = Math.random() * window.innerHeight;
+      this.y = Math.random() * viewportH;
       this.vx = (Math.random() - 0.5) * 200;
       this.vy = (Math.random() - 0.5) * 200;
 
       this.el = document.createElement('div');
       this.el.className = 'phiquiz-figma-cursor';
-      this.el.style.cssText = `position:absolute;left:0;top:0;pointer-events:none;will-change:transform;transition:opacity .3s ease;display:flex;flex-direction:column;align-items:flex-start;`;
+      this.el.style.cssText = 'position:absolute;left:0;top:0;pointer-events:none;will-change:transform;display:flex;flex-direction:column;align-items:flex-start;';
       this.el.innerHTML = createCursorSvg(this.color);
       flockContainer.appendChild(this.el);
     }
 
     update(dt, targetX, targetY, t) {
-      if (!isAmbient && !isRunningIntro) {
-        this.el.style.opacity = '0';
-        return;
-      }
-      this.el.style.opacity = '1';
-
       // Orbit dynamic radius: R = 135 * (1 + 0.18 * sin(0.55 * t))
       const dynamicR = (135 * (1 + 0.18 * Math.sin(0.55 * t))) + (this.orbitR - 120);
       const orbitTargetX = targetX + Math.cos(t * this.spin * 0.5 + this.id) * dynamicR;
@@ -108,7 +112,7 @@
       ax += -dy * this.spin * swirlDir * 1.5;
       ay += dx * this.spin * swirlDir * 1.5;
 
-      // User mouse repel zone (radius 48px)
+      // User mouse repel zone (radius 56px)
       if (mouseActive) {
         const mx = this.x - mouseX;
         const my = this.y - mouseY;
@@ -137,22 +141,26 @@
       this.y += this.vy * dt;
 
       // Rotate towards flight direction
-      const angleDeg = (Math.atan2(this.vy, this.vx) * 180 / Math.PI) - 45; // Arrow orientation offset
-      this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${angleDeg * 0.25}deg)`;
+      const angleDeg = (Math.atan2(this.vy, this.vx) * 180 / Math.PI) - 45;
+      this.el.style.transform = `translate3d(${this.x.toFixed(1)}px, ${this.y.toFixed(1)}px, 0) rotate(${(angleDeg * 0.25).toFixed(1)}deg)`;
     }
   }
 
   function tick(now) {
+    if (!isAmbient || document.hidden || prefersReducedMotion() || isSmallViewport()) {
+      rafId = null;
+      return;
+    }
+
     const dt = Math.min((now - lastTime) / 1000, 0.05);
     lastTime = now;
     const t = now / 1000;
 
-    // Target position: real mouse or slow sine Lissajous center motion
     let targetX = mouseX;
     let targetY = mouseY;
     if (!mouseActive) {
-      targetX = (window.innerWidth / 2) + Math.sin(t * 0.6) * 180;
-      targetY = (window.innerHeight / 2) + Math.cos(t * 0.45) * 110;
+      targetX = (viewportW / 2) + Math.sin(t * 0.6) * 180;
+      targetY = (viewportH / 2) + Math.cos(t * 0.45) * 110;
     }
 
     for (let i = 0; i < agents.length; i++) {
@@ -163,6 +171,7 @@
   }
 
   function startAmbient() {
+    if (prefersReducedMotion() || isSmallViewport()) return;
     initContainer();
     isAmbient = true;
     if (agents.length === 0) {
@@ -170,7 +179,10 @@
         agents.push(new Agent(i));
       }
     }
-    if (!rafId) {
+    requestAnimationFrame(() => {
+      if (container && isAmbient) container.style.opacity = '1';
+    });
+    if (!rafId && !document.hidden) {
       lastTime = performance.now();
       rafId = requestAnimationFrame(tick);
     }
@@ -178,87 +190,48 @@
 
   function stopAmbient(hide) {
     isAmbient = false;
-    if (hide && agents.length) {
-      agents.forEach(a => a.el.style.opacity = '0');
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    if (hide && container) {
+      container.style.opacity = '0';
     }
   }
 
-  function startIntro(onComplete) {
-    initContainer();
-    isRunningIntro = true;
+  function startWithoutModal(onComplete) {
+    const staleCard = document.getElementById('phiquiz-intro-card');
+    if (staleCard) staleCard.remove();
     startAmbient();
+    window.dispatchEvent(new CustomEvent('phiquiz:swarm-complete'));
+    window.dispatchEvent(new CustomEvent('phiquiz:swarm-finished'));
+    if (typeof onComplete === 'function') onComplete();
+  }
 
-    // Rebuild intro overlay card
-    const introCard = document.createElement('div');
-    introCard.id = 'phiquiz-intro-card';
-    introCard.style.cssText = `position:fixed;top:50%;left:50%;transform:translate(-50%, -50%) scale(0.95);
-      width:min(360px, calc(100vw - 48px));background:#ffffff;border:2.5px solid #1e1e1e;
-      border-radius:25px;box-shadow:6px 6px 0 #1e1e1e;padding:24px 28px;z-index:99999;
-      display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;
-      opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);font-family:'Plus Jakarta Sans',sans-serif;`;
-
-    introCard.innerHTML = `
-      <div style="width:48px;height:48px;background:#ffc72e;border:2px solid #1e1e1e;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #1e1e1e;">
-        <span class="msr msr-filled" style="font-size:26px;color:#1e1e1e;">architecture</span>
-      </div>
-      <div style="font-size:22px;font-weight:800;color:#1e1e1e;letter-spacing:-0.03em;">Dựng Canvas...</div>
-      <div style="font-size:12px;font-weight:700;color:#40484f;">Đàn con trỏ Figma đang thiết lập bản vẽ</div>
-      <div style="width:100%;height:9px;background:#efeee8;border:2px solid #1e1e1e;border-radius:9999px;overflow:hidden;margin-top:6px;position:relative;">
-        <div style="position:absolute;top:0;bottom:0;width:40%;background:#38b6ff;border-radius:9999px;animation:phiquizIndet 1.15s infinite ease-in-out;"></div>
-      </div>
-      <button id="phiquiz-skip-intro" style="margin-top:8px;background:transparent;border:none;font-size:11px;font-weight:800;color:#707880;cursor:pointer;padding:4px 10px;border-radius:8px;font-family:inherit;">
-        Bỏ qua (Esc)
-      </button>
-    `;
-
-    // Add keyframe style
-    if (!document.getElementById('phiquiz-swarm-style')) {
-      const st = document.createElement('style');
-      st.id = 'phiquiz-swarm-style';
-      st.textContent = `
-        @keyframes phiquizIndet {
-          0% { left: -40%; width: 30%; }
-          50% { width: 50%; }
-          100% { left: 100%; width: 30%; }
-        }
-      `;
-      document.head.appendChild(st);
+  window.addEventListener('resize', function() {
+    viewportW = window.innerWidth;
+    viewportH = window.innerHeight;
+    if (isSmallViewport() && isAmbient) {
+      stopAmbient(true);
     }
+  }, { passive: true });
 
-    container.appendChild(introCard);
-    requestAnimationFrame(() => {
-      introCard.style.opacity = '1';
-      introCard.style.transform = 'translate(-50%, -50%) scale(1)';
-    });
-
-    window.dispatchEvent(new CustomEvent('phiquiz:swarm-covered'));
-
-    function finish() {
-      if (!isRunningIntro) return;
-      isRunningIntro = false;
-      if (introCard && introCard.parentNode) {
-        introCard.style.opacity = '0';
-        introCard.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        setTimeout(() => introCard.remove(), 350);
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
       }
-      window.dispatchEvent(new CustomEvent('phiquiz:swarm-complete'));
-      window.dispatchEvent(new CustomEvent('phiquiz:swarm-finished'));
-      if (typeof onComplete === 'function') onComplete();
+    } else if (isAmbient && !rafId && !prefersReducedMotion() && !isSmallViewport()) {
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(tick);
     }
+  });
 
-    // Escape or Skip button
-    document.addEventListener('keydown', function onEsc(e) {
-      if (e.key === 'Escape') {
-        document.removeEventListener('keydown', onEsc);
-        finish();
-      }
+  if (reducedMotionQuery && typeof reducedMotionQuery.addEventListener === 'function') {
+    reducedMotionQuery.addEventListener('change', function(e) {
+      if (e.matches) stopAmbient(true);
     });
-
-    const skipBtn = introCard.querySelector('#phiquiz-skip-intro');
-    if (skipBtn) skipBtn.onclick = finish;
-
-    // Auto finish after 1.8s
-    setTimeout(finish, 1800);
   }
 
   // Mouse move listener
@@ -273,11 +246,11 @@
   // Public API
   window.__swarmRebuild = {
     _loaded: true,
-    start: function(onDone) { startIntro(onDone); },
+    start: function(onDone) { startWithoutModal(onDone); },
     stop: function(hide) { stopAmbient(hide); },
     setAmbient: function(v) { if (v) startAmbient(); else stopAmbient(true); },
     app: { active: true }
   };
 
-  console.log('[PhiQuiz] Swarm Rebuild & Figma Ambient Cursor Flock Ready.');
+  console.log('[PhiQuiz] Lightweight Ambient Cursor Flock Ready.');
 })();

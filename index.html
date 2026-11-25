@@ -30,8 +30,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700&display=swap">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
 
     <style>
         :root, [data-theme="dark"], html.dark {
@@ -1190,17 +1194,62 @@ body {
     } else {
       document.documentElement.classList.add('fonts-loaded');
     }
-    // Figma Multiplayer Swarm Rebuild Flags
     const params = new URLSearchParams(location.search);
-    const requested = params.get('intro') === '1';
-    const disabled  = params.get('intro') === '0';
-    const reduced   = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ambientDisabled = params.get('intro') === '0';
+    const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const phone = /Android.*Mobile|iPhone|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent)
-               || matchMedia('(max-width: 640px) and (pointer: coarse)').matches;
+               || matchMedia('(max-width: 767px)').matches
+               || matchMedia('(max-width: 1023px) and (pointer: coarse)').matches;
     window.__phiquizIntroDisabledOnMobile = phone;
-    window.__phiquizInitialHomeIntro = !phone && !disabled && (requested || (location.pathname === '/' && !reduced));
-    window.__phiquizWillRunSwarm = window.__phiquizInitialHomeIntro;
+    window.__phiquizHubAmbientAllowed = !phone && !ambientDisabled && !reduced;
     </script>
+
+<style id="hub-progressive-reveal-style">
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hubSmoothReveal {
+    0% {
+      opacity: 0.01;
+      transform: translate3d(0, 14px, 0) scale(0.99);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+  .hub-entrance-active .phiquiz-hero > :first-child {
+    animation: hubSmoothReveal 0.34s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    will-change: transform, opacity;
+  }
+  .hub-entrance-active .phiquiz-hero > :nth-child(2) {
+    animation: hubSmoothReveal 0.36s cubic-bezier(0.22, 1, 0.36, 1) 60ms backwards;
+    will-change: transform, opacity;
+  }
+  .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card {
+    --hub-stagger-step: 55ms;
+    --hub-stagger-base: 50ms;
+    animation: hubSmoothReveal 0.36s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    will-change: transform, opacity;
+  }
+  @supports (animation-delay: calc(sibling-index() * 0.1s)) {
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card {
+      animation-delay: calc(var(--hub-stagger-base) + sibling-index() * var(--hub-stagger-step));
+    }
+  }
+  @supports not (animation-delay: calc(sibling-index() * 0.1s)) {
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(1) { animation-delay: 105ms; }
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(2) { animation-delay: 160ms; }
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(3) { animation-delay: 215ms; }
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(4) { animation-delay: 270ms; }
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(5) { animation-delay: 325ms; }
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(6) { animation-delay: 380ms; }
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(7) { animation-delay: 435ms; }
+    .hub-entrance-active .phiquiz-cards-grid > .phiquiz-card:nth-child(8) { animation-delay: 490ms; }
+  }
+  .hub-entrance-active footer {
+    animation: hubSmoothReveal 0.34s cubic-bezier(0.22, 1, 0.36, 1) 420ms backwards;
+  }
+}
+</style>
 
 <style id="hub-no-sidebar-style">
   body {
@@ -1218,37 +1267,53 @@ body {
 
 
 <!-- ==========================================================================
-     FIGMA MULTIPLAYER SWARM REBUILD LOADER (CHỈ CHO TRANG CHỦ / HUB)
+     HUB PROGRESSIVE ENTRANCE CLEANUP & DEFERRED AMBIENT FLOCK
      ========================================================================== -->
 <script>
 (function() {
-  if (window.__phiquizWillRunSwarm) {
-    var s = document.createElement('script');
-    s.id = 'phiquiz-swarm-rebuild-script';
-    s.src = './swarm-rebuild.js';
-    s.async = true;
-    s.addEventListener('error', function() {
-      window.dispatchEvent(new Event('phiquiz:swarm-failed'));
-    });
-    s.addEventListener('load', function() {
-      if (window.__swarmRebuild) {
-        window.__swarmRebuild.start(function() {
-          window.__phiquizInitialHomeIntro = false;
-        });
-      }
-    });
-    document.head.appendChild(s);
-  } else if (!window.__phiquizIntroDisabledOnMobile) {
-    var s = document.createElement('script');
-    s.src = './swarm-rebuild.js';
-    s.async = true;
-    s.addEventListener('load', function() {
-      if (window.__swarmRebuild) {
-        window.__swarmRebuild.setAmbient(true);
-      }
-    });
-    document.head.appendChild(s);
+  function finishHubEntrance() {
+    var mainEl = document.getElementById('hubMainContainer');
+    if (mainEl) mainEl.classList.remove('hub-entrance-active');
   }
+
+  function scheduleAmbientFlock() {
+    if (!window.__phiquizHubAmbientAllowed) return;
+    var loadScript = function() {
+      if (document.getElementById('phiquiz-swarm-rebuild-script')) return;
+      var s = document.createElement('script');
+      s.id = 'phiquiz-swarm-rebuild-script';
+      s.src = './swarm-rebuild.js';
+      s.async = true;
+      s.addEventListener('load', function() {
+        if (window.__swarmRebuild) {
+          window.__swarmRebuild.setAmbient(true);
+        }
+      });
+      document.head.appendChild(s);
+    };
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(loadScript, { timeout: 1200 });
+    } else {
+      setTimeout(loadScript, 150);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    var mainEl = document.getElementById('hubMainContainer');
+    if (!mainEl) return;
+    var rawAnims = typeof mainEl.getAnimations === 'function' ? mainEl.getAnimations({ subtree: true }) : [];
+    var anims = rawAnims.filter(function(a) { return a.animationName === 'hubSmoothReveal'; });
+    if (anims.length === 0) {
+      finishHubEntrance();
+    } else {
+      Promise.all(anims.map(function(a) { return a.finished.catch(function() {}); })).then(finishHubEntrance);
+    }
+    setTimeout(finishHubEntrance, 950);
+  });
+
+  window.addEventListener('load', function() {
+    setTimeout(scheduleAmbientFlock, 750);
+  });
 })();
 </script>
 
@@ -1368,7 +1433,7 @@ body {
 <!-- ==========================================================================
      MAIN CONTENT WRAPPER (PHIQUIZ HERO + CARDS GRID)
      ========================================================================== -->
-<div class="phiquiz-main-container">
+<div class="phiquiz-main-container hub-entrance-active" id="hubMainContainer">
 
   <!-- HERO SECTION 2 CỘT -->
   <section class="phiquiz-hero">
@@ -3386,6 +3451,8 @@ window.addEventListener('DOMContentLoaded', function() {
   var searchInp = document.getElementById('hihiHeroSearchInput');
   if (searchInp) {
     searchInp.addEventListener('input', function(e) {
+      var mainEl = document.getElementById('hubMainContainer');
+      if (mainEl) mainEl.classList.remove('hub-entrance-active');
       var q = (e.target.value || '').toLowerCase().trim();
       var cards = document.querySelectorAll('.phiquiz-cards-grid .phiquiz-card');
       cards.forEach(function(card) {
