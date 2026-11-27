@@ -2915,6 +2915,16 @@ window.hihiParseBulkInput = function() {
   alert(`Đã nạp thành công ${count} từ vựng từ văn bản!`);
 };
 
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function hihiRenderWordTable() {
   const countEl = document.getElementById("hihiWordCount") || document.getElementById("hihiWordCountBadge");
   const tbody = document.getElementById("hihiWordTableBody") || document.getElementById("hihiStagedTableBody");
@@ -2930,10 +2940,10 @@ function hihiRenderWordTable() {
   tbody.innerHTML = window.hihiStagedWords.map((item, idx) => `
     <tr>
       <td style="color:#94a3b8;font-size:0.75rem;width:30px;">${idx + 1}</td>
-      <td style="font-weight:600;color:var(--color-ink);">${item.word || item.english}</td>
-      <td>${item.meaning || item.vietnamese}</td>
-      <td style="color:#38bdf8;font-size:0.82rem;">${item.phonetic || item.ipa || "-"}</td>
-      <td style="font-size:0.8rem;color:#94a3b8;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.example || "-"}</td>
+      <td style="font-weight:600;color:var(--color-ink);">${escapeHtml(item.word || item.english)}</td>
+      <td>${escapeHtml(item.meaning || item.vietnamese)}</td>
+      <td style="color:#38bdf8;font-size:0.82rem;">${escapeHtml(item.phonetic || item.ipa || "-")}</td>
+      <td style="font-size:0.8rem;color:#94a3b8;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(item.example || "-")}</td>
       <td style="text-align:right;width:40px;">
         <button class="hihi-btn-secondary" style="padding:2px 8px;font-size:0.75rem;color:#ef4444;" onclick="hihiRemoveWord(${idx})"><i class="fas fa-times"></i></button>
       </td>
@@ -3035,20 +3045,20 @@ async function hihiLoadCustomTopicsList() {
       div.innerHTML = `
         <div>
           <div style="font-weight:700;color:var(--color-ink);">
-            <span style="margin-right:6px;">${flag}</span>${t.name}
-            <span style="display:inline-block;margin-left:6px;font-size:0.7rem;padding:1px 6px;border-radius:4px;background:rgba(56,189,248,0.15);color:#38bdf8;font-weight:600;">${langLabel}</span>
+            <span style="margin-right:6px;">${escapeHtml(flag)}</span>${escapeHtml(t.name)}
+            <span style="display:inline-block;margin-left:6px;font-size:0.7rem;padding:1px 6px;border-radius:4px;background:rgba(56,189,248,0.15);color:#38bdf8;font-weight:600;">${escapeHtml(langLabel)}</span>
           </div>
           <div style="font-size:0.75rem;color:#94a3b8;margin-top:2px;">${t.words?.length || 0} từ vựng</div>
         </div>
         <div style="display:flex;gap:6px;">
-          <button class="hihi-btn-secondary" style="padding:4px 8px;font-size:0.75rem;" onclick="hihiLoadTopicToEdit('${dSnap.id}')"><i class="fas fa-edit"></i> Nạp</button>
-          <button class="hihi-btn-secondary" style="padding:4px 8px;font-size:0.75rem;color:#ef4444;" onclick="hihiDeleteTopic('${dSnap.id}')"><i class="fas fa-trash"></i></button>
+          <button class="hihi-btn-secondary" style="padding:4px 8px;font-size:0.75rem;" onclick="hihiLoadTopicToEdit(this.dataset.topicId)" data-topic-id="${escapeHtml(dSnap.id)}"><i class="fas fa-edit"></i> Nạp</button>
+          <button class="hihi-btn-secondary" style="padding:4px 8px;font-size:0.75rem;color:#ef4444;" onclick="hihiDeleteTopic(this.dataset.topicId)" data-topic-id="${escapeHtml(dSnap.id)}"><i class="fas fa-trash"></i></button>
         </div>
       `;
       container.appendChild(div);
     });
   } catch(e) {
-    container.innerHTML = `<span style="color:#ef4444;">Lỗi tải: ${e.message}</span>`;
+    container.innerHTML = `<span style="color:#ef4444;">Lỗi tải: ${escapeHtml(e.message)}</span>`;
   }
 }
 
@@ -3290,12 +3300,12 @@ function hihiRenderTopicCards(list) {
     const flag = t.flag || (HIHI_LANGUAGES[t.lang]?.flag) || '🇺🇸';
     const langName = t.langName || (HIHI_LANGUAGES[t.lang]?.name) || 'Tiếng Anh';
     return `
-    <div onclick="hihiSelectTopic('${t.id}')" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:14px;background:var(--color-surface);border:2px solid var(--color-ink);box-shadow:var(--shadow-hard-xs);cursor:pointer;transition:transform 0.12s ease;">
+    <div onclick="hihiSelectTopic(this.dataset.topicId)" data-topic-id="${escapeHtml(t.id)}" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:14px;background:var(--color-surface);border:2px solid var(--color-ink);box-shadow:var(--shadow-hard-xs);cursor:pointer;transition:transform 0.12s ease;">
       <div>
-        <div style="font-weight:800;font-size:0.9rem;color:var(--color-ink);">${t.name}</div>
+        <div style="font-weight:800;font-size:0.9rem;color:var(--color-ink);">${escapeHtml(t.name)}</div>
         <div style="font-size:0.74rem;color:var(--color-muted);margin-top:4px;font-weight:700;">
-          <span style="display:inline-block;padding:2px 8px;border-radius:999px;background:var(--color-cyan);color:#1e1e1e;border:1.5px solid var(--color-ink);font-weight:800;margin-right:6px;">${flag} ${langName}</span>
-          <span style="display:inline-block;padding:2px 8px;border-radius:999px;background:var(--color-surface2);color:var(--color-ink);border:1.5px solid var(--color-ink);font-weight:700;margin-right:6px;">${t.category || "Chủ đề"}</span>
+          <span style="display:inline-block;padding:2px 8px;border-radius:999px;background:var(--color-cyan);color:#1e1e1e;border:1.5px solid var(--color-ink);font-weight:800;margin-right:6px;">${escapeHtml(flag)} ${escapeHtml(langName)}</span>
+          <span style="display:inline-block;padding:2px 8px;border-radius:999px;background:var(--color-surface2);color:var(--color-ink);border:1.5px solid var(--color-ink);font-weight:700;margin-right:6px;">${escapeHtml(t.category || "Chủ đề")}</span>
           ${t.isCustom ? "⭐ Tùy chỉnh" : "📚 Kho GitHub"}
         </div>
       </div>
